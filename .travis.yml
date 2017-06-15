@@ -62,6 +62,7 @@ install:
 # Universal Setup
   # CMake
   - brew install cmake
+  - cmake --version
   # Buck
   - brew tap facebook/fb
   - brew install buck
