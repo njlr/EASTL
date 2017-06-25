@@ -8,6 +8,7 @@
  *    
  *    EA_COMPILER_IS_ANSIC
  *    EA_COMPILER_IS_C99
+ *    EA_COMPILER_IS_C11
  *    EA_COMPILER_HAS_C99_TYPES
  *    EA_COMPILER_IS_CPLUSPLUS
  *    EA_COMPILER_MANAGED_CPP
@@ -112,6 +113,15 @@
 		//
 		#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 			#define EA_COMPILER_IS_C99 1
+		#endif
+
+ 		// Is the compiler a C11 compiler?
+ 		// From ISO/IEC 9899:2011:
+		//   Page 176, 6.10.8.1 (Predefined macro names) :
+ 		//   __STDC_VERSION__ The integer constant 201112L. (178)
+		//
+		#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
+			#define EA_COMPILER_IS_C11 1
 		#endif
 	#endif
 
@@ -1430,6 +1440,16 @@
 			#define EA_FP16C 1
 		#else
 			#define EA_FP16C 0
+		#endif
+	#endif
+
+	// EA_FP128 may be used to determine if __float128 is a supported type for use. This type is enabled by a GCC extension (_GLIBCXX_USE_FLOAT128)
+	// but has support by some implementations of clang (__FLOAT128__)
+	#ifndef EA_FP128
+		#if defined __FLOAT128__ || defined _GLIBCXX_USE_FLOAT128
+			#define EA_FP128 1
+		#else
+			#define EA_FP128 0
 		#endif
 	#endif
 
